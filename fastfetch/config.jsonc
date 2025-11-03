@@ -1,0 +1,68 @@
+{
+  "$schema": "https://github.com/fastfetch/fastfetch/raw/dev/doc/config.schema.json",
+
+  // --- ARREGLO DE ALINEACIÓN Y SEPARADOR ---
+  "display": {
+    "separator": "=>>     ",
+    "key": {
+      "type": "both" // icono y texto
+    },
+    "constants": [
+      "───────────────────────────────────( 🚀 )────────────────────────────────────"
+    ]
+  },
+
+  "logo": {
+    "type": "kitty-direct",
+    "source": "/home/yovick/Pictures/terminalCyberpunk.png",
+    "width": 43,
+    "height": 19,
+    "padding": {
+      "top": 2,
+      "left": 6,
+      "right": 9
+    }
+  },
+
+  "modules": [
+    {
+      "type": "title",
+      "format": "╭─────────────────────────────[ 🔥 {user-name-colored}@{host-name-colored} 🔥 ]─────────────────────────────╮"
+    },
+
+    "break",
+    "break", // Margen superior
+
+    // --- MÓDULOS CON ALINEACIÓN MANUAL ---
+    { "type": "os",       "key": "  OS                    ",  "keyColor": "magenta" },
+    { "type": "host",     "key": "  Host                  ",  "keyColor": "magenta" },
+    { "type": "kernel",   "key": "  Kernel                ",  "keyColor": "magenta" },
+    { "type": "uptime",   "key": "  Uptime                ",  "keyColor": "magenta" },
+    { "type": "packages", "key": "  Packages              ",  "keyColor": "magenta" },
+    { "type": "shell",    "key": "  Shell                 ",  "keyColor": "magenta" },
+    { "type": "display",  "key": "  Display (MSI G2412)   ",  "keyColor": "magenta" },
+    { "type": "de",       "key": "  DE                    ",  "keyColor": "magenta" },
+    { "type": "wm",       "key": "  WM                    ",  "keyColor": "magenta" },
+    { "type": "terminal", "key": "  Terminal              ",  "keyColor": "magenta" },
+    { "type": "cpu",      "key": "  CPU                   ",  "keyColor": "magenta" },
+    { "type": "gpu",      "key": "  GPU                   ",  "keyColor": "magenta" },
+    { "type": "memory",   "key": "  Memory                ",  "keyColor": "magenta" },
+    { "type": "swap",     "key": "  Swap                  ",  "keyColor": "magenta" },
+
+    "break",
+    "break", // Margen inferior
+
+    // --- LÍNEA INFERIOR ---
+    {
+      "type": "custom",
+      "format": "╰{$1}╯"
+    },
+
+    // --- COLORES ---
+    {
+      "type": "colors",
+      "paddingLeft": 31,
+      "symbol": "circle"
+    }
+  ]
+}

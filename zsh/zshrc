@@ -1,3 +1,5 @@
+sleep 0.1
+fastfetch
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -125,3 +127,19 @@ bindkey "^[[1;5D" backward-word
 bindkey "^H" backward-delete-word
 bindkey "^[[3;5~" delete-word
 
+
+# -----------------------------------------------------------------
+# Configuración de FZF (Fuzzy Finder)
+# Carga las integraciones de autocompletado y atajos de teclado
+# -----------------------------------------------------------------
+[ -f /usr/share/fzf/shell/completion.zsh ] && source /usr/share/fzf/shell/completion.zsh
+[ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh
+
+# Created by `pipx` on 2025-11-01 08:06:53
+export PATH="$PATH:/home/yovick/.local/bin"
+
+# -----------------------------------------------------------------
+# Configuración de AIDER-CHAT (Agente IA Local)
+# Le dice a Aider dónde encontrar el servidor de Ollama
+# -----------------------------------------------------------------
+export OLLAMA_API_BASE="http://127.0.0.1:11434"

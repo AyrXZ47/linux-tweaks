@@ -1,164 +1,205 @@
-# Mis Configuraciones y Tweaks para Linux
+# Mis Configuraciones y Tweaks para Linux (Cyberpunk Edition)
 
-Este es mi repositorio personal de configuraciones, scripts y soluciones para optimizar mi entorno de desarrollo en Linux.
+Este repositorio contiene mi colección personal de configuraciones (dotfiles), scripts y soluciones para crear un entorno de desarrollo optimizado y con una estética cyberpunk en Linux, principalmente enfocado en Fedora.
+
+![Terminal Cyberpunk](fastfetch/terminalCyberpunk.png)
 
 ---
 
-## Fix: Bloquear Control de Volumen de Chrome en PipeWire (Fedora)
+## Características
 
-Esta configuración evita que Google Chrome y navegadores derivados (Brave, Vivaldi, chromium, electron, etc.) ajusten automáticamente el volumen del micrófono en sistemas que usan PipeWire.
+*   **Terminal:** [WezTerm](https://wezfurlong.org/wezterm/) con transparencia, tema "Cyberdyne" y la fuente "JetBrains Mono Nerd Font".
+*   **Shell:** [Zsh](https://www.zsh.org/) gestionado con [Oh My Zsh](https://ohmyz.sh/) y el tema [Powerlevel10k](https://github.com/romkatv/powerlevel10k).
+*   **Editor:** [Neovim](https://neovim.io/) configurado con [LazyVim](https://www.lazyvim.org/) para una experiencia de IDE completa, con un tema personalizado de cyberpunk y efectos visuales.
+*   **System Fetch:** [Fastfetch](https://github.com/fastfetch-cli/fastfetch) con una configuración personalizada para mostrar la información del sistema con un estilo único.
+*   **Plugins de Shell:**
+    *   `zsh-autosuggestions`: Sugiere comandos mientras escribes.
+    *   `zsh-syntax-highlighting`: Colorea la sintaxis de los comandos.
+    *   `fzf`: Búsqueda "fuzzy" para archivos e historial.
+*   **Calidad de Vida:**
+    *   Un fix para PipeWire que evita que Chrome/Chromium controle el volumen del micrófono.
+    *   Integración con herramientas de IA en la terminal como [Aider](https://aider.chat/) y [Gemini CLI](https://github.com/google/gemini-cli).
 
-### El Problema
-Aplicaciones basadas en Chromium intentan "ayudar" ajustando el volumen del micrófono, lo cual interfiere con la configuración manual y puede ser molesto en videollamadas.
+---
 
-### La Solución
-Se crea una regla personalizada para PipeWire que le ordena ignorar las solicitudes de cambio de volumen provenientes de estos procesos.
+## Instalación (Fedora)
 
-### Pasos de Instalación
+Estas instrucciones están pensadas para una instalación desde cero en Fedora Linux.
 
-1.  **Crear el directorio de configuración (si no existe):**
+### 1. Dependencias Base
+
+Primero, instala las herramientas esenciales y de desarrollo.
+
+```bash
+sudo dnf install zsh git neovim ripgrep fd-find unzip golang -y
+sudo dnf install @c-development -y
+```
+
+### 2. WezTerm (Terminal)
+
+Instalamos la terminal WezTerm usando su repositorio COPR.
+
+```bash
+sudo dnf copr enable wezfurlong/wezterm-nightly -y
+sudo dnf install wezterm -y
+```
+
+### 3. Fuente Nerd Font
+
+Para que los íconos y el tema se vean correctamente, necesitas una "Nerd Font". Usaremos JetBrains Mono.
+
+```bash
+curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip
+mkdir -p ~/.local/share/fonts/JetBrainsMonoNerdFont
+unzip JetBrainsMono.zip -d ~/.local/share/fonts/JetBrainsMonoNerdFont
+rm JetBrainsMono.zip
+fc-cache -f -v
+```
+
+### 4. Zsh, Oh My Zsh y Powerlevel10k
+
+Instala Oh My Zsh y clona los plugins recomendados.
+
+```bash
+# Instalar Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Instalar plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+```
+
+### 5. FZF (Fuzzy Finder)
+
+```bash
+sudo dnf install fzf -y
+```
+
+---
+
+## Configuración (Symlinks)
+
+Una vez instalado todo, el siguiente paso es aplicar las configuraciones desde este repositorio usando enlaces simbólicos (symlinks). Esto permite mantener los archivos de configuración en el repositorio y que los cambios se apliquen automáticamente.
+
+**Importante:** Ejecuta estos comandos desde la raíz de este repositorio (`linux-tweaks`).
+
+1.  **Zsh:**
+    ```bash
+    # Haz una copia de tu .zshrc actual (opcional)
+    mv ~/.zshrc ~/.zshrc.bak
+    # Crea el enlace simbólico
+    ln -s "$(pwd)/zsh/zshrc" "$HOME/.zshrc"
+    ```
+
+2.  **WezTerm:**
+    ```bash
+    mkdir -p ~/.config/wezterm
+    ln -s "$(pwd)/wezterm/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
+    ```
+
+3.  **Fastfetch:**
+    ```bash
+    mkdir -p ~/.config/fastfetch
+    ln -s "$(pwd)/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+    ```
+
+4.  **Neovim (LazyVim con tema Cyberpunk):**
+
+    a. **Clona la configuración inicial de LazyVim:**
+    ```bash
+    git clone https://github.com/LazyVim/starter ~/.config/nvim
+    rm -rf ~/.config/nvim/.git
+    ```
+
+    b. **Crea los enlaces para los plugins personalizados:**
+    ```bash
+    mkdir -p ~/.config/nvim/lua/plugins
+    ln -s "$(pwd)/nvim/theme-cyberpunk-neon.lua" "$HOME/.config/nvim/lua/plugins/theme-cyberpunk-neon.lua"
+    ln -s "$(pwd)/nvim/smear-cursor.lua" "$HOME/.config/nvim/lua/plugins/smear-cursor.lua"
+    ```
+
+    c. **Activa el tema en la configuración de LazyVim:**
+    Abre `~/.config/nvim/lua/config/lazy.lua` y reemplaza la línea:
+    `{ "LazyVim/LazyVim", import = "lazyvim.plugins" }`
+    con esta:
+    `{ "LazyVim/LazyVim", import = "lazyvim.plugins", opts = { colorscheme = "cyberpunk-neon" } },`
+
+    *Nota: Si al iniciar Neovim encuentras un error, prueba ejecutando `unset SSH_ASKPASS` en tu terminal antes de volver a abrir `nvim`.*
+
+---
+
+## Tweaks Adicionales
+
+### Bloquear Control de Volumen de Chrome en PipeWire
+
+Para evitar que Chrome y derivados ajusten el volumen de tu micrófono:
+
+1.  **Crea el directorio de configuración (si no existe):**
     ```bash
     sudo mkdir -p /etc/pipewire/pipewire-pulse.conf.d/
     ```
 
-2.  **Crear el archivo de reglas:**
+2.  **Crea y edita el archivo de reglas:**
     ```bash
     sudo vim /etc/pipewire/pipewire-pulse.conf.d/10-block-chrome-volume.conf
     ```
 
-3.  **Pegar el siguiente contenido en el archivo:**
+3.  **Pega el siguiente contenido:**
     ```plaintext
     # Bloqueo de control de volumen para Google Chrome y derivados
     pulse.rules = [
         {
-            matches = [
-                {
-                    application.process.binary = "chrome"
-                }
-            ],
-            actions = {
-                quirks = [ block-source-volume ]
-            }
+            matches = [ { application.process.binary = "chrome" } ],
+            actions = { quirks = [ block-source-volume ] }
         },
         {
-            matches = [
-                {
-                    application.name = "~(Chromium|Google Chrome).*"
-                }
-            ],
-            actions = {
-                quirks = [ block-source-volume ]
-            }
+            matches = [ { application.name = "~(Chromium|Google Chrome).*" } ],
+            actions = { quirks = [ block-source-volume ] }
         }
     ]
     ```
-    Guarda y cierra el archivo (`:wq`).
 
-4.  **Reiniciar los servicios de PipeWire (como usuario, sin `sudo`):**
+4.  **Reinicia los servicios de PipeWire (como usuario, sin `sudo`):**
     ```bash
     systemctl --user restart pipewire.service pipewire-pulse.service wireplumber.service
     ```
 
+### IA en la Terminal
+
+*   **Aider (Agente IA local con Ollama):**
+    ```bash
+    curl -LsSf https://aider.chat/install.sh | sh
+    # Ejemplo de uso con un modelo local
+    aider --model ollama/codegemma:7b
+    ```
+
+*   **Gemini CLI:**
+    ```bash
+    sudo dnf install npm -y
+    npm install -g @google/gemini-cli
+    ```
 
 ---
 
-## Configuración de Wezterm + neovim + lazyvim + Zsh (`.zshrc`) + oh-my-zsh + Powerlevel10k
+## Termux (Android)
 
-**Las instalaciones:**
+Para replicar una parte de esta configuración en Termux:
 
-* sudo dnf install zsh git neovim ripgrep fd-find unzip golang -y
-* sudo dnf install @c-development -y
-* sudo dnf copr enable wezfurlong/wezterm-nightly -y
-* sudo dnf install wezterm -y
+1.  **Desde F-Droid, instala:**
+    *   `Termux`
+    *   `Termux:API`
+    *   `Termux:Styling`
 
-**Insatalar la fuente sin errores:**
-
-* curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip
-* mkdir -p ~/.local/share/fonts/JetBrainsMonoNerdFont
-* unzip JetBrainsMono.zip -d ~/.local/share/fonts/JetBrainsMonoNerdFont
-* rm JetBrainsMono.zip
-* fc-cache -f -v
-
-
-
-**Plugins Principales:**
-
-* `git`: Integración y alias para Git.
-* `sudo`: Facilita la repetición de comandos con `sudo` (doble `Esc`).
-* `zsh-autosuggestions`: Sugiere comandos basados en el historial.
-* `zsh-syntax-highlighting`: Colorea los comandos en la terminal.
-
-### Instalación
-
-Para usar esta configuración en un nuevo sistema (asumiendo que Oh My Zsh ya está instalado), el método recomendado es crear un **enlace simbólico (symlink)**.
-
-1.  **(Opcional) Haz una copia de seguridad de tu `.zshrc` existente:**
+2.  **Instala los paquetes base en Termux:**
     ```bash
-    mv ~/.zshrc ~/.zshrc.bak
-    ```
-2.  **Crea el enlace simbólico desde el repositorio a tu home:**
-    *Asegúrate de ejecutar este comando desde la raíz del repositorio `linux-tweaks`.*
-    ```bash
-    ln -s "$(pwd)/zsh/zshrc" "$HOME/.zshrc"
+    pkg update && pkg upgrade -y
+    pkg install git zsh neovim build-essential ripgrep fd-find unzip curl termux-api -y
     ```
 
+3.  Sigue los pasos de instalación y configuración de **Zsh** y **Neovim** de las secciones anteriores, ya que son muy similares.
 
+---
 
-### Funcionalidad 
+## Licencia
 
-* git clone https://github.com/LazyVim/starter ~/.config/nvim
-* rm -rf ~/.config/nvim/.git
-
-
-### Look Cyberpunk para más FPS!
-
-* mkdir -p ~/.config/wezterm
-* nvim ~/.config/wezterm/wezterm.lua
-
-Si llega a dar error por algún motivo, intenta con 'unset SSH_ASKPASS' para el tema de lazyvim
-
-* nvim ~/.config/nvim/lua/plugins/theme-cyberpunk-neon.lua
-
-El contenido del archivo está dentro de la carpeta nvim
-
-* nvim ~/.config/nvim/lua/config/lazy.lua
-
-Busca la línea { "LazyVim/LazyVim", import = "lazyvim.plugins" } y reemplázala con esta: 
-
-* { "LazyVim/LazyVim", import = "lazyvim.plugins", opts = { colorscheme = "cyberpunk-neon" } },
-
-### Cursor Smear
-
-* nvim ~/.config/nvim/lua/plugins/smear-cursor.lua
-
-El contenido del archivo está dentro de la carpeta nvim
-
-
---- 
-
-## IA en la terminal
-
-**Ollama:**
-
-
-
-**Gemini:**
-
-* sudo dnf install npm
-* npm install -g @google/gemini-cli
-
-
---- 
-
-## Termux
-
-**F-Droid**:
-1.  `Termux` (La terminal base)
-2.  `Termux:API` (Necesaria para que Neovim hable con el portapapeles)
-3.  `Termux:Styling` (Para los temas y fuentes.)
-
-* pkg update && pkg upgrade -y
-
-* pkg install git zsh neovim build-essential ripgrep fd-find unzip curl termux-api
-
-Seguir pasos iniciales.
+Este proyecto está bajo la [Licencia MIT](LICENSE).
