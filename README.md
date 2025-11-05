@@ -183,7 +183,7 @@ Para evitar que Chrome y derivados ajusten el volumen de tu micrófono:
 
 #### Personalización Visual (userChrome.css)
 
-Para aplicar una personalización visual a Firefox que coincida con el tema Cyberpunk:
+Mi personalización de Firefox depende de varios archivos `css` para lograr la estética deseada, incluyendo la capacidad de auto-ocultar la barra de herramientas y moverla a la parte inferior.
 
 1.  **Habilitar `userChrome.css`:**
     *   Abre Firefox y ve a la página `about:config`.
@@ -195,13 +195,19 @@ Para aplicar una personalización visual a Firefox que coincida con el tema Cybe
 
 3.  **Aplicar el Estilo:**
     *   Dentro de la carpeta de tu perfil, crea un directorio llamado `chrome` si no existe.
-    *   Crea un enlace simbólico al `userChrome.css` de este repositorio dentro de esa carpeta `chrome`.
+    *   Ahora, crea enlaces simbólicos para los archivos de este repositorio dentro de esa carpeta `chrome`. Esto asegura que `userChrome.css` pueda importar las otras reglas de estilo.
         ```bash
         # Estando en la raíz de este repositorio (linux-tweaks)
         # Reemplaza RUTA_A_LA_CARPETA_CHROME con la ruta que abriste en el paso anterior + /chrome
+
+        # Enlace para el archivo principal
         ln -s "$(pwd)/firefox/userChrome.css" "RUTA_A_LA_CARPETA_CHROME/userChrome.css"
+
+        # Enlaces para las personalizaciones importadas
+        ln -s "$(pwd)/firefox/chrome/autohide_toolbox.css" "RUTA_A_LA_CARPETA_CHROME/autohide_toolbox.css"
+        ln -s "$(pwd)/firefox/chrome/toolbars_below_content.css" "RUTA_A_LA_CARPETA_CHROME/toolbars_below_content.css"
         ```
-    *   Reinicia Firefox para ver los cambios.
+    *   Reinicia Firefox para ver los cambios. El `userChrome.css` de este repo ya contiene las líneas `@import` necesarias para cargar los otros archivos.
 
 #### Atajos para PWAs (Progressive Web Apps)
 
@@ -253,13 +259,25 @@ Para replicar una parte de esta configuración en Termux:
     *   `Termux:API`
     *   `Termux:Styling`
 
-2.  **Instala los paquetes base en Termux:**
+2.  **Permisos de almacenamiento:**
+    Es crucial dar a Termux acceso al almacenamiento. Ejecuta este comando y acepta el permiso:
     ```bash
-    pkg update && pkg upgrade -y
-    pkg install git zsh neovim build-essential ripgrep fd-find unzip curl termux-api -y
+    termux-setup-storage
     ```
 
-3.  Sigue los pasos de instalación y configuración de **Zsh** y **Neovim** de las secciones anteriores, ya que son muy similares.
+3.  **Instala los paquetes base en Termux:**
+    ```bash
+    pkg update && pkg upgrade -y
+    pkg install git zsh neovim ripgrep fd fzf unzip curl termux-api fastfetch build-essential pkg-config ndk-sysroot python cmake nodejs-lts -y
+    ```
+
+4.  Sigue los pasos de instalación y configuración de **Zsh** y **Neovim** de las secciones anteriores, ya que son muy similares.
+
+5.  **Instalación de Gemini CLI (si falla el método normal):**
+    Si `npm install -g @google/gemini-cli` da errores, es probable que necesites especificar la ruta del NDK de Android:
+    ```bash
+    GYP_DEFINES="android_ndk_path=/data/data/com.termux/files/usr/lib/ndk" npm install -g @google/gemini-cli
+    ```
 
 ---
 
