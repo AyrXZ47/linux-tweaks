@@ -250,6 +250,46 @@ Puedes lanzar PWAs de Firefox como si fueran aplicaciones nativas y asignarles a
 
 ---
 
+### Personalización de GNOME
+
+Para lograr una experiencia de escritorio más completa y visualmente atractiva en GNOME, sigo estos pasos:
+
+1.  **Instalar Herramientas de Personalización:**
+    *   Abre la tienda de **Software de GNOME** e instala:
+        *   `Extension Manager` (para gestionar extensiones fácilmente).
+        *   `GDM Settings` (para personalizar la pantalla de login).
+    *   Instala **GNOME Tweaks** desde la terminal, que permite ajustes más detallados:
+        ```bash
+        sudo dnf install gnome-tweaks -y
+        ```
+
+2.  **Instalar Extensiones de GNOME:**
+    Usa la aplicación `Extension Manager` que instalaste para buscar e instalar las siguientes extensiones:
+    *   `Blur my Shell` (del autor `aunetx`): Añade un efecto de desenfoque al escritorio y al overview.
+    *   `Control monitor brightness and volume with ddcutil` (del autor `nei`): Permite controlar el brillo y volumen de monitores externos.
+    *   `GSConnect`: Integra tu dispositivo Android con el escritorio GNOME.
+    *   `Quick Settings Audio Panel` (del autor `Rayzeq`): Mejora el panel de control de audio.
+    *   `Rounded Corners` (del autor `lennart-k`): Suaviza las esquinas de las ventanas.
+
+3.  **Aplicar Temas de Iconos y Cursores:**
+    *   Primero, necesitas copiar los temas desde este repositorio a la carpeta de iconos del sistema. Usa `sudo nautilus` para abrir el gestor de archivos con permisos de administrador:
+        ```bash
+        sudo nautilus
+        ```
+    *   En la ventana de Nautilus con privilegios de administrador, navega a `/usr/share/icons/` y copia las siguientes carpetas desde la raíz de este repositorio:
+        *   `gnome/tweaks/Beyond`
+        *   `gnome/tweaks/DeppinDark-cursors`
+    *   Cierra la ventana de `sudo nautilus`.
+    *   Abre la aplicación **GNOME Tweaks** (Ajustes), ve a la sección `Apariencia` y selecciona:
+        *   **Cursor:** `DeppinDark-cursors`
+        *   **Iconos:** `Beyond`
+
+4.  **Personalizar Pantalla de Login (GDM):**
+    *   Abre la aplicación **GDM Settings**.
+    *   Desde aquí, puedes seleccionar una imagen de fondo de pantalla y un logo personalizados para la pantalla de inicio de sesión. Las imágenes que uso suelen estar en mi carpeta de `Imágenes`. Este paso es más manual y a gusto personal.
+
+---
+
 ## Termux (Android)
 
 Para replicar una parte de esta configuración en Termux:
