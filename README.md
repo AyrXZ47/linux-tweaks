@@ -179,6 +179,32 @@ Para evitar que Chrome y derivados ajusten el volumen de tu micrófono:
     npm install -g @google/gemini-cli
     ```
 
+### Firefox (Estilo Cyberpunk)
+
+Para aplicar una personalización visual a Firefox, sigue estos pasos:
+
+1.  **Habilitar `userChrome.css`:**
+    *   Abre Firefox y ve a la página `about:config`.
+    *   Busca la preferencia `toolkit.legacyUserProfileCustomizations.stylesheets`.
+    *   Haz clic en el botón para cambiar su valor a `true`.
+
+2.  **Encontrar tu Perfil de Firefox:**
+    *   Ve a `about:profiles` en Firefox.
+    *   Busca el perfil que está en uso, y haz clic en el botón "Abrir directorio" de la "Carpeta raíz". Esto abrirá el explorador de archivos en la ubicación de tu perfil.
+
+3.  **Clonar los Hacks y Aplicar Configuración:**
+    *   Dentro del directorio de tu perfil, clona el repositorio de `firefox-csshacks` en una nueva carpeta llamada `chrome`.
+        ```bash
+        # Estando dentro de la carpeta de tu perfil
+        git clone https://github.com/MrOtherGuy/firefox-csshacks.git chrome
+        ```
+    *   Copia la configuración de este repositorio a la carpeta `chrome` que acabas de crear.
+        ```bash
+        # Estando dentro de la carpeta de tu perfil
+        cp /home/yovick/Documents/linux-tweaks/firefox/userChrome.css chrome/userChrome.css
+        ```
+    *   Reinicia Firefox para ver los cambios.
+
 ---
 
 ## Termux (Android)
