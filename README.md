@@ -179,31 +179,68 @@ Para evitar que Chrome y derivados ajusten el volumen de tu micrófono:
     npm install -g @google/gemini-cli
     ```
 
-### Firefox (Estilo Cyberpunk)
+### Firefox (Estilo Cyberpunk y PWAs)
 
-Para aplicar una personalización visual a Firefox, sigue estos pasos:
+#### Personalización Visual (userChrome.css)
+
+Para aplicar una personalización visual a Firefox que coincida con el tema Cyberpunk:
 
 1.  **Habilitar `userChrome.css`:**
     *   Abre Firefox y ve a la página `about:config`.
-    *   Busca la preferencia `toolkit.legacyUserProfileCustomizations.stylesheets`.
-    *   Haz clic en el botón para cambiar su valor a `true`.
+    *   Busca la preferencia `toolkit.legacyUserProfileCustomizations.stylesheets` y asegúrate de que esté en `true`.
 
 2.  **Encontrar tu Perfil de Firefox:**
     *   Ve a `about:profiles` en Firefox.
-    *   Busca el perfil que está en uso, y haz clic en el botón "Abrir directorio" de la "Carpeta raíz". Esto abrirá el explorador de archivos en la ubicación de tu perfil.
+    *   Busca el perfil que está en uso y haz clic en el botón "Abrir directorio" de la "Carpeta raíz".
 
-3.  **Clonar los Hacks y Aplicar Configuración:**
-    *   Dentro del directorio de tu perfil, clona el repositorio de `firefox-csshacks` en una nueva carpeta llamada `chrome`.
+3.  **Aplicar el Estilo:**
+    *   Dentro de la carpeta de tu perfil, crea un directorio llamado `chrome` si no existe.
+    *   Crea un enlace simbólico al `userChrome.css` de este repositorio dentro de esa carpeta `chrome`.
         ```bash
-        # Estando dentro de la carpeta de tu perfil
-        git clone https://github.com/MrOtherGuy/firefox-csshacks.git chrome
-        ```
-    *   Copia la configuración de este repositorio a la carpeta `chrome` que acabas de crear.
-        ```bash
-        # Estando dentro de la carpeta de tu perfil
-        cp /home/yovick/Documents/linux-tweaks/firefox/userChrome.css chrome/userChrome.css
+        # Estando en la raíz de este repositorio (linux-tweaks)
+        # Reemplaza RUTA_A_LA_CARPETA_CHROME con la ruta que abriste en el paso anterior + /chrome
+        ln -s "$(pwd)/firefox/userChrome.css" "RUTA_A_LA_CARPETA_CHROME/userChrome.css"
         ```
     *   Reinicia Firefox para ver los cambios.
+
+#### Atajos para PWAs (Progressive Web Apps)
+
+Puedes lanzar PWAs de Firefox como si fueran aplicaciones nativas y asignarles atajos de teclado.
+
+1.  **Instalar la Extensión:**
+    *   Añade la extensión [PWAs for Firefox](https://addons.mozilla.org/es/firefox/addon/pwas-for-firefox/) a Firefox.
+
+2.  **Instalar una PWA:**
+    *   Navega a un sitio compatible con PWA (ej. `web.whatsapp.com`, `app.slack.com`).
+    *   Haz clic en el icono de la extensión en la barra de herramientas y selecciona "Install PWA".
+
+3.  **Encontrar el Comando de Lanzamiento:**
+    *   Abre una terminal y navega al directorio de aplicaciones locales:
+        ```bash
+        cd ~/.local/share/applications/
+        ```
+    *   Busca el archivo `.desktop` de la PWA que instalaste. Puedes usar `ls -l | grep webapp` para filtrar.
+    *   Lee el contenido del archivo. Por ejemplo, si el archivo se llama `webapp-Gemini-1234.desktop`:
+        ```bash
+        cat webapp-Gemini-1234.desktop
+        ```
+
+4.  **Extraer el Comando:**
+    *   Busca la línea que empieza con `Exec=`. Tendrá un aspecto similar a este:
+        ```
+        Exec=firefox --class "WebApp-Gemini-12345abcde" --webapp "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8" %u
+        ```
+    *   Copia el comando **omitiendo el `%u` del final**. Este es el comando que necesitas para lanzar la PWA directamente.
+        ```
+        firefox --class "WebApp-Gemini-12345abcde" --webapp "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8"
+        ```
+
+5.  **Crear el Atajo de Teclado (GNOME):**
+    *   Ve a `Configuración` > `Teclado` > `Atajos de teclado`.
+    *   Baja hasta `Atajos personalizados` y haz clic en el botón `+`.
+    *   En el campo "Comando", pega el comando que copiaste en el paso anterior.
+    *   Asigna un nombre y la combinación de teclas que desees.
+    *   Guarda el atajo. ¡Listo! Ahora puedes lanzar tu PWA con tu atajo personalizado.
 
 ---
 
