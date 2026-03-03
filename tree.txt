@@ -1,0 +1,38 @@
+.
+├── CODE_OF_CONDUCT.md
+├── fastfetch
+│   ├── config.jsonc
+│   └── terminalCyberpunk.png
+├── firefox
+│   ├── chrome
+│   │   ├── autohide_toolbox.css
+│   │   └── toolbars_below_content.css
+│   └── userChrome.css
+├── gnome
+│   ├── Pictures
+│   │   ├── 5154529.jpg
+│   │   ├── 676037.jpg
+│   │   ├── ai-generated-9129381.jpg
+│   │   ├── cyberpunk2077.jpg
+│   │   ├── FedoraCyberpunkLogo.png
+│   │   ├── lucy2.png
+│   │   ├── lucy.jpg
+│   │   ├── samurai-cyberpunk-2077-3840x2160-9665.jpg
+│   │   ├── samurai-cyberpunk-3840x2160-13692.jpeg
+│   │   ├── samurai-yaiba-3840x2160-12534.jpg
+│   │   └── wp6195755-cyberpunk-aesthetic-4k-wallpapers.jpg
+│   └── tweaks
+│       ├── Beyond.zip
+│       └── DeppinDark-cursors.zip
+├── LICENSE
+├── nvim
+│   ├── smear-cursor.lua
+│   └── theme-cyberpunk-neon.lua
+├── README.md
+├── tree.txt
+├── wezterm
+│   └── wezterm.lua
+└── zsh
+    └── zshrc
+
+10 directories, 26 files
