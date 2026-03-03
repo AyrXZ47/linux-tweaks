@@ -14,7 +14,7 @@
 
   "logo": {
     "type": "kitty-direct",
-    "source": "/home/yovick/Pictures/terminalCyberpunk.png",
+    "source": "~/linux-tweaks/fastfetch/terminalCyberpunk.png",
     "width": 43,
     "height": 19,
     "padding": {

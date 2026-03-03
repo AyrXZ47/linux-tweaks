@@ -3,7 +3,7 @@
 /* Import your desired components first */
 
 @import url("chrome/autohide_toolbox.css");
-@import url("chrome/toolbars_below_content.css");
+/* @import url("chrome/toolbars_below_content.css"); */ 
 @import url(chrome/tab_close_button_always_on_hover.css);
 @import url(chrome/tab_loading_progress_throbber.css);
 @import url(chrome/button_effect_scale_onclick.css);

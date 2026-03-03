@@ -58,11 +58,14 @@ fc-cache -f -v
 
 ### 4. Zsh, Oh My Zsh y Powerlevel10k
 
-Instala Oh My Zsh y clona los plugins recomendados.
+Instala Oh My Zsh y clona los plugins recomendados, además del tema Powerlevel10k.
 
 ```bash
 # Instalar Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Instalar Powerlevel10k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 # Instalar plugins
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -194,18 +197,20 @@ Mi personalización de Firefox depende de varios archivos `css` para lograr la e
     *   Busca el perfil que está en uso y haz clic en el botón "Abrir directorio" de la "Carpeta raíz".
 
 3.  **Aplicar el Estilo:**
-    *   Dentro de la carpeta de tu perfil, crea un directorio llamado `chrome` si no existe.
-    *   Ahora, crea enlaces simbólicos para los archivos de este repositorio dentro de esa carpeta `chrome`. Esto asegura que `userChrome.css` pueda importar las otras reglas de estilo.
+    *   Dentro de la carpeta de tu perfil, crea un directorio llamado `chrome` si no existe, y dentro de este otro llamado `chrome`.
+    *   Ahora, crea enlaces simbólicos para los archivos de este repositorio dentro de esa carpeta. Esto asegura que `userChrome.css` pueda importar las otras reglas de estilo.
         ```bash
         # Estando en la raíz de este repositorio (linux-tweaks)
-        # Reemplaza RUTA_A_LA_CARPETA_CHROME con la ruta que abriste en el paso anterior + /chrome
+        # Reemplaza RUTA_PERFIL con la ruta de tu perfil de Firefox (la que abriste en el paso anterior)
 
-        # Enlace para el archivo principal
-        ln -s "$(pwd)/firefox/userChrome.css" "RUTA_A_LA_CARPETA_CHROME/userChrome.css"
+        mkdir -p "RUTA_PERFIL/chrome/chrome"
 
-        # Enlaces para las personalizaciones importadas
-        ln -s "$(pwd)/firefox/chrome/autohide_toolbox.css" "RUTA_A_LA_CARPETA_CHROME/autohide_toolbox.css"
-        ln -s "$(pwd)/firefox/chrome/toolbars_below_content.css" "RUTA_A_LA_CARPETA_CHROME/toolbars_below_content.css"
+        # Enlace para el archivo principal (va en la carpeta chrome/)
+        ln -sf "$(pwd)/firefox/userChrome.css" "RUTA_PERFIL/chrome/userChrome.css"
+
+        # Enlaces para las personalizaciones importadas (van en la subcarpeta chrome/chrome/)
+        ln -sf "$(pwd)/firefox/chrome/autohide_toolbox.css" "RUTA_PERFIL/chrome/chrome/autohide_toolbox.css"
+        ln -sf "$(pwd)/firefox/chrome/toolbars_below_content.css" "RUTA_PERFIL/chrome/chrome/toolbars_below_content.css"
         ```
     *   Reinicia Firefox para ver los cambios. El `userChrome.css` de este repo ya contiene las líneas `@import` necesarias para cargar los otros archivos.
 
@@ -272,14 +277,16 @@ Para lograr una experiencia de escritorio más completa y visualmente atractiva 
     *   `Rounded Corners` (del autor `lennart-k`): Suaviza las esquinas de las ventanas.
 
 3.  **Aplicar Temas de Iconos y Cursores:**
-    *   Primero, necesitas copiar los temas desde este repositorio a la carpeta de iconos del sistema. Usa `sudo nautilus` para abrir el gestor de archivos con permisos de administrador:
+    *   Como `sudo nautilus` ya no es recomendado en muchas distros, instalaremos los temas desde la terminal:
         ```bash
-        sudo nautilus
+        # Estando en la raíz de este repositorio (linux-tweaks)
+        sudo cp gnome/tweaks/Beyond.zip /usr/share/icons/
+        sudo cp gnome/tweaks/DeppinDark-cursors.zip /usr/share/icons/
+        sudo unzip /usr/share/icons/Beyond.zip -d /usr/share/icons/
+        sudo unzip /usr/share/icons/DeppinDark-cursors.zip -d /usr/share/icons/
+        # (Opcional) Limpia los archivos zip copiados
+        sudo rm /usr/share/icons/Beyond.zip /usr/share/icons/DeppinDark-cursors.zip
         ```
-    *   En la ventana de Nautilus con privilegios de administrador, navega a `/usr/share/icons/` y copia las siguientes carpetas desde la raíz de este repositorio:
-        *   `gnome/tweaks/Beyond`
-        *   `gnome/tweaks/DeppinDark-cursors`
-    *   Cierra la ventana de `sudo nautilus`.
     *   Abre la aplicación **GNOME Tweaks** (Ajustes), ve a la sección `Apariencia` y selecciona:
         *   **Cursor:** `DeppinDark-cursors`
         *   **Iconos:** `Beyond`
