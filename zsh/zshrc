@@ -182,3 +182,19 @@ function subtitular() {
 # opencode
 export PATH=/home/yovick/.opencode/bin:$PATH
 
+
+
+
+# ==========================================
+# SCRCPY CYBER-DECK ALIASES (v3.x Optimized)
+# ==========================================
+
+# 1. Modo Espejo: Para juntas. Muestra exactamente tu tablet.
+alias Mirror="(nohup scrcpy --stay-awake --video-bit-rate 20M --max-fps 120 --fullscreen > /dev/null 2>&1 &)"
+
+# 2. Modo Segundo Escritorio: Segundo escritorio virtual. Gemini en el monitor, S-Pen en la tablet.
+alias SecDesk="(nohup scrcpy --new-display=1920x1080/200 --video-bit-rate 20M --max-fps 120 --fullscreen --no-audio > /dev/null 2>&1 &)"
+
+
+# 3. Modo DeX Inalámbrico de emergencia.
+alias scrcpy-wifi="scrcpy --tcpip --video-bit-rate 10M --max-fps 60"
