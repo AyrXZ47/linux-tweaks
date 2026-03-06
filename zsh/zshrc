@@ -186,15 +186,32 @@ export PATH=/home/yovick/.opencode/bin:$PATH
 
 
 # ==========================================
-# SCRCPY CYBER-DECK ALIASES (v3.x Optimized)
+# SCRCPY CYBER-DECK ALIASES (v3.x Optimized H.265)
 # ==========================================
 
-# 1. Modo Espejo: Para juntas. Muestra exactamente tu tablet.
-alias Mirror="(nohup scrcpy --stay-awake --video-bit-rate 20M --max-fps 120 --fullscreen > /dev/null 2>&1 &)"
+# 1. Modo Espejo: Muestra exactamente tu tablet (Con Audio)
+Mirror() {
+    nohup sh -c '
+        adb shell settings put system screen_brightness_mode 0
+        adb shell settings put system screen_brightness 0
+        
+        scrcpy --stay-awake --video-codec=h265 --max-size 1920 --video-bit-rate 20M --max-fps 90 --fullscreen
+        
+        adb shell settings put system screen_brightness_mode 1
+    ' > /dev/null 2>&1 & disown
+}
 
-# 2. Modo Segundo Escritorio: Segundo escritorio virtual. Gemini en el monitor, S-Pen en la tablet.
-alias SecDesk="(nohup scrcpy --new-display=1920x1080/200 --video-bit-rate 20M --max-fps 120 --fullscreen --no-audio > /dev/null 2>&1 &)"
+# 2. Modo Segundo Escritorio: Gemini en el monitor, S-Pen en la tablet (Sin Audio)
+SecDesk() {
+    nohup sh -c '
+        adb shell settings put system screen_brightness_mode 0
+        adb shell settings put system screen_brightness 0
+        
+        scrcpy --new-display=1920x1080/200 --video-codec=h265 --video-bit-rate 20M --max-fps 90 --fullscreen --no-audio
+        
+        adb shell settings put system screen_brightness_mode 1
+    ' > /dev/null 2>&1 & disown
+}
 
-
-# 3. Modo DeX Inalámbrico de emergencia.
-alias scrcpy-wifi="scrcpy --tcpip --video-bit-rate 10M --max-fps 60"
+# 3. Modo DeX Inalámbrico de emergencia (Maximizando el WiFi con H.265)
+alias scrcpy-wifi="nohup scrcpy --tcpip --video-codec=h265 --video-bit-rate 15M --max-fps 60 > /dev/null 2>&1 & disown"
