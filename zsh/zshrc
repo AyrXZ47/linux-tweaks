@@ -195,7 +195,7 @@ function SecDesk() {
     adb shell settings put system screen_brightness_mode 0
     adb shell settings put system screen_brightness 0
     
-    env SDL_VIDEODRIVER=wayland scrcpy --stay-awake --new-display=1920x1080/200 --video-codec=h265 --video-bit-rate 50M --max-fps 170 --audio-codec=opus --audio-bit-rate 256K --keyboard=aoa --fullscreen
+    env SDL_VIDEODRIVER=wayland scrcpy --stay-awake --new-display=1920x1080/200 --video-codec=h265 --video-bit-rate 50M --max-fps 170 --audio-codec=opus --audio-bit-rate 256K --fullscreen
     
     echo "🔌 SecDesk desconectado. Restaurando brillo..."
     adb shell settings put system screen_brightness_mode 1
@@ -204,5 +204,5 @@ function SecDesk() {
 # Mirror: Espejo exacto para Samsung Notes/Reuniones (Brillo activo)
 function Mirror() {
     echo "⚡ Iniciando Mirror Protocol (Pantalla activa para S-Pen)..."
-    env SDL_VIDEODRIVER=wayland scrcpy --stay-awake --video-codec=h265 --video-bit-rate 50M --max-fps 170 --keyboard=aoa --fullscreen
+    env SDL_VIDEODRIVER=wayland scrcpy --stay-awake --video-codec=h265 --video-bit-rate 50M --max-fps 170 --fullscreen
 }
