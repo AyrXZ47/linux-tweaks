@@ -195,7 +195,7 @@ Mirror() {
         adb shell settings put system screen_brightness_mode 0
         adb shell settings put system screen_brightness 0
         
-        scrcpy --stay-awake --video-codec=h265 --max-size 1920 --video-bit-rate 20M --max-fps 90 --fullscreen
+        scrcpy --stay-awake --video-codec=h264 --max-size 1920 --video-bit-rate 16M --max-fps 60 --fullscreen
         
         adb shell settings put system screen_brightness_mode 1
     ' > /dev/null 2>&1 & disown
@@ -207,7 +207,7 @@ SecDesk() {
         adb shell settings put system screen_brightness_mode 0
         adb shell settings put system screen_brightness 0
         
-        scrcpy --new-display=1920x1080/200 --video-codec=h265 --video-bit-rate 20M --max-fps 90 --fullscreen --no-audio
+        scrcpy --new-display=1920x1080/200 --video-codec=h264 --video-bit-rate 12M --max-fps 60 --fullscreen --no-audio
         
         adb shell settings put system screen_brightness_mode 1
     ' > /dev/null 2>&1 & disown
