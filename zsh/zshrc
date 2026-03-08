@@ -186,32 +186,23 @@ export PATH=/home/yovick/.opencode/bin:$PATH
 
 
 # ==========================================
-# SCRCPY CYBER-DECK ALIASES (v3.x Optimized H.265)
+# Cyberdeck Tablet Protocols (Scrcpy)
 # ==========================================
 
-# 1. Modo Espejo: Muestra exactamente tu tablet (Con Audio)
-Mirror() {
-    nohup sh -c '
-        adb shell settings put system screen_brightness_mode 0
-        adb shell settings put system screen_brightness 0
-        
-        scrcpy --stay-awake --video-codec=h264 --max-size 1920 --video-bit-rate 16M --max-fps 60 --fullscreen
-        
-        adb shell settings put system screen_brightness_mode 1
-    ' > /dev/null 2>&1 & disown
+# SecDesk: Monitor virtual independiente (Brillo apagado)
+function SecDesk() {
+    echo "⚡ Iniciando SecDesk Protocol (170fps + Audio HiFi)..."
+    adb shell settings put system screen_brightness_mode 0
+    adb shell settings put system screen_brightness 0
+    
+    env SDL_VIDEODRIVER=wayland scrcpy --stay-awake --new-display=1920x1080/200 --video-codec=h265 --video-bit-rate 50M --max-fps 170 --audio-codec=opus --audio-bit-rate 256K --keyboard=aoa --fullscreen
+    
+    echo "🔌 SecDesk desconectado. Restaurando brillo..."
+    adb shell settings put system screen_brightness_mode 1
 }
 
-# 2. Modo Segundo Escritorio: Gemini en el monitor, S-Pen en la tablet (Sin Audio)
-SecDesk() {
-    nohup sh -c '
-        adb shell settings put system screen_brightness_mode 0
-        adb shell settings put system screen_brightness 0
-        
-        scrcpy --new-display=1920x1080/200 --video-codec=h264 --video-bit-rate 12M --max-fps 60 --fullscreen --no-audio
-        
-        adb shell settings put system screen_brightness_mode 1
-    ' > /dev/null 2>&1 & disown
+# Mirror: Espejo exacto para Samsung Notes/Reuniones (Brillo activo)
+function Mirror() {
+    echo "⚡ Iniciando Mirror Protocol (Pantalla activa para S-Pen)..."
+    env SDL_VIDEODRIVER=wayland scrcpy --stay-awake --video-codec=h265 --video-bit-rate 50M --max-fps 170 --keyboard=aoa --fullscreen
 }
-
-# 3. Modo DeX Inalámbrico de emergencia (Maximizando el WiFi con H.265)
-alias scrcpy-wifi="nohup scrcpy --tcpip --video-codec=h265 --video-bit-rate 15M --max-fps 60 > /dev/null 2>&1 & disown"
