@@ -191,11 +191,11 @@ export PATH=/home/yovick/.opencode/bin:$PATH
 
 # SecDesk: Monitor virtual independiente (Brillo apagado)
 function SecDesk() {
-    echo "⚡ Iniciando SecDesk Protocol (170fps + Audio HiFi)..."
+    echo "⚡ Iniciando SecDesk Protocol (170fps + Vulkan + H.264 Fast + Audio optimizado)..."
     adb shell settings put system screen_brightness_mode 0
     adb shell settings put system screen_brightness 0
     
-    env SDL_VIDEODRIVER=wayland scrcpy --stay-awake --new-display=1920x1080/200 --video-codec=h265 --video-bit-rate 50M --max-fps 170 --audio-codec=opus --audio-bit-rate 256K --fullscreen
+    env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy --stay-awake --new-display=1920x1080/200 --video-codec=h264 --video-bit-rate 24M --max-fps 170 --audio-codec=opus --audio-bit-rate 128K --audio-buffer=50 --fullscreen
     
     echo "🔌 SecDesk desconectado. Restaurando brillo..."
     adb shell settings put system screen_brightness_mode 1
@@ -203,6 +203,7 @@ function SecDesk() {
 
 # Mirror: Espejo exacto para Samsung Notes/Reuniones (Brillo activo)
 function Mirror() {
-    echo "⚡ Iniciando Mirror Protocol (Pantalla activa para S-Pen)..."
-    env SDL_VIDEODRIVER=wayland scrcpy --stay-awake --video-codec=h265 --video-bit-rate 50M --max-fps 170 --fullscreen
+    echo "⚡ Iniciando Mirror Protocol (Pantalla activa para S-Pen + Vulkan + H.264 Fast)..."
+    env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy --stay-awake --video-codec=h264 --video-bit-rate 24M --max-fps 170 --fullscreen
 }
+
