@@ -192,6 +192,7 @@ export PATH=/home/yovick/.opencode/bin:$PATH
 # SecDesk: Monitor virtual independiente (Brillo apagado)
 function SecDesk() {
     echo "⚡ Iniciando SecDesk Protocol (170fps + Vulkan + H.264 Fast + Audio optimizado)..."
+    adb shell am kill-all
     adb shell settings put system screen_brightness_mode 0
     adb shell settings put system screen_brightness 0
     
