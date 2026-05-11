@@ -226,18 +226,21 @@ function SecDesk_WiFi() {
     fi
     
     local TARGET_IP="$1"
+    local TARGET_DEVICE="$TARGET_IP:5555"
     
     echo "🌐 Trazando ruta a $TARGET_IP..."
-    adb connect "$TARGET_IP:5555"
+    adb connect "$TARGET_DEVICE"
     sleep 1
     
-    echo "⚡ Iniciando SecDesk Protocol Oculto (H.265 + 12M + Vulkan)..."
-    adb shell am kill-all
-    adb shell settings put system screen_brightness_mode 0
-    adb shell settings put system screen_brightness 0
+    echo "⚡ Iniciando SecDesk Protocol Oculto (H.265 + 16M + Vulkan)..."
+    # Añadimos -s "$TARGET_DEVICE" para apuntar exclusivamente a la tablet
+    adb -s "$TARGET_DEVICE" shell am kill-all
+    adb -s "$TARGET_DEVICE" shell settings put system screen_brightness_mode 0
+    adb -s "$TARGET_DEVICE" shell settings put system screen_brightness 0
     
     (
         env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy \
+            -s "$TARGET_DEVICE" \
             --stay-awake \
             --new-display=1920x1080 \
             --video-codec=h265 \
@@ -248,10 +251,10 @@ function SecDesk_WiFi() {
             --audio-buffer=50 \
             --fullscreen > /dev/null 2>&1
         
-        adb shell settings put system screen_brightness_mode 1
+        adb -s "$TARGET_DEVICE" shell settings put system screen_brightness_mode 1
     ) &!
     
-    echo "✅ Enlace SecDesk establecido en las sombras. Ya puedes cerrar esta terminal."
+    echo "✅ Enlace SecDesk apuntado y establecido. Ya puedes cerrar esta terminal."
 }
 
 # Mirror Wireless: Espejo exacto para S-Pen/Reuniones (Pantalla activa)
@@ -264,14 +267,16 @@ function Mirror_WiFi() {
     fi
 
     local TARGET_IP="$1"
+    local TARGET_DEVICE="$TARGET_IP:5555"
     
     echo "🌐 Trazando ruta a $TARGET_IP..."
-    adb connect "$TARGET_IP:5555"
+    adb connect "$TARGET_DEVICE"
     sleep 1
     
-    echo "⚡ Iniciando Mirror Protocol Fantasma (H.265 + 12M + Vulkan)..."
+    echo "⚡ Iniciando Mirror Protocol Fantasma (H.265 + 16M + Vulkan)..."
     (
         env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy \
+            -s "$TARGET_DEVICE" \
             --stay-awake \
             --video-codec=h265 \
             --video-bit-rate 16M \
@@ -279,6 +284,6 @@ function Mirror_WiFi() {
             --fullscreen > /dev/null 2>&1
     ) &!
     
-    echo "✅ Mirror ejecutándose. Terminal liberada."
+    echo "✅ Mirror ejecutándose en objetivo fijado. Terminal liberada."
 }
 
