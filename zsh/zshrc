@@ -185,35 +185,76 @@ export PATH=/home/yovick/.opencode/bin:$PATH
 
 
 
+
 # ==========================================
-# Cyberdeck Tablet Protocols (Scrcpy)
-# (El cuello de botella es la tablet con USB 2.0)
+# Cyberdeck Tablet Protocols (Scrcpy por CABLE)
+# (Ancho de banda extremo: 50M + 120Hz)
 # ==========================================
 
 # SecDesk: Monitor virtual independiente (Brillo apagado)
 function SecDesk() {
-    echo "⚡ Iniciando SecDesk Protocol (170fps + Vulkan + H.264 Fast + Audio optimizado)..."
-    adb shell am kill-all
-    adb shell settings put system screen_brightness_mode 0
-    adb shell settings put system screen_brightness 0
+    echo "⚡ Iniciando SecDesk Protocol (Cable USB: 120fps + Vulkan + 50M)..."
     
-    env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy --stay-awake --new-display=1920x1080 --video-codec=h264 --video-bit-rate 8M --max-fps 85 --audio-codec=opus --audio-bit-rate 128K --audio-buffer=50 --fullscreen
+    # 1. PURGA DE RED: Matamos cualquier conexión Wi-Fi zombie de ADB
+    echo "🧹 Purgando conexiones inalámbricas previas..."
+    adb disconnect
     
-    echo "🔌 SecDesk desconectado. Restaurando brillo..."
-    adb shell settings put system screen_brightness_mode 1
+    # 2. Forzamos con -d para que SOLO use el cable físico
+    adb -d shell am kill-all
+    adb -d shell settings put system screen_brightness_mode 0
+    adb -d shell settings put system screen_brightness 0
+    
+    # 3. Lo lanzamos en el fondo para liberar la terminal
+    (
+        env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy \
+            -d \
+            --stay-awake \
+            --new-display=1920x1080 \
+            --video-codec=h265 \
+            --video-bit-rate 50M \
+            --max-fps 85 \
+            --audio-codec=opus \
+            --audio-bit-rate 128K \
+            --audio-buffer=50 \
+            --fullscreen > /dev/null 2>&1
+        
+        # Al cerrar la ventana gráfica, se restaura el brillo
+        adb -d shell settings put system screen_brightness_mode 1
+    ) &!
+    
+    echo "✅ Enlace SecDesk por CABLE establecido. Red purgada y terminal liberada."
 }
 
 # Mirror: Espejo exacto para Samsung Notes/Reuniones (Brillo activo)
 function Mirror() {
-    echo "⚡ Iniciando Mirror Protocol (Pantalla activa para S-Pen + Vulkan + H.264 Fast)..."
-    env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy --stay-awake --video-codec=h264 --video-bit-rate 8M --max-fps 85 --fullscreen
+    echo "⚡ Iniciando Mirror Protocol (Cable USB: 120fps + Vulkan + 50M)..."
+    
+    # PURGA DE RED
+    adb disconnect
+    
+    (
+        env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy \
+            -d \
+            --stay-awake \
+            --video-codec=h265 \
+            --video-bit-rate 50M \
+            --max-fps 85 \
+            --fullscreen > /dev/null 2>&1
+    ) &!
+    
+    echo "✅ Mirror por CABLE ejecutándose. Terminal liberada."
 }
+
+
+
+
 
 
 
 
 # ==========================================
 # Cyberdeck Tablet Protocols (Scrcpy Wi-Fi)
+# (WiFi es un asco para esto)
 # ==========================================
 
 # SecDesk Wireless: Monitor virtual independiente (Brillo apagado)
