@@ -187,6 +187,7 @@ export PATH=/home/yovick/.opencode/bin:$PATH
 
 # ==========================================
 # Cyberdeck Tablet Protocols (Scrcpy)
+# (El cuello de botella es la tablet con USB 2.0)
 # ==========================================
 
 # SecDesk: Monitor virtual independiente (Brillo apagado)
@@ -196,7 +197,7 @@ function SecDesk() {
     adb shell settings put system screen_brightness_mode 0
     adb shell settings put system screen_brightness 0
     
-    env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy --stay-awake --new-display=1920x1080/180 --video-codec=h264 --video-bit-rate 8M --max-fps 85 --audio-codec=opus --audio-bit-rate 128K --audio-buffer=50 --fullscreen
+    env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy --stay-awake --new-display=1920x1080 --video-codec=h264 --video-bit-rate 8M --max-fps 85 --audio-codec=opus --audio-bit-rate 128K --audio-buffer=50 --fullscreen
     
     echo "🔌 SecDesk desconectado. Restaurando brillo..."
     adb shell settings put system screen_brightness_mode 1
@@ -206,5 +207,78 @@ function SecDesk() {
 function Mirror() {
     echo "⚡ Iniciando Mirror Protocol (Pantalla activa para S-Pen + Vulkan + H.264 Fast)..."
     env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy --stay-awake --video-codec=h264 --video-bit-rate 8M --max-fps 85 --fullscreen
+}
+
+
+
+
+# ==========================================
+# Cyberdeck Tablet Protocols (Scrcpy Wi-Fi)
+# ==========================================
+
+# SecDesk Wireless: Monitor virtual independiente (Brillo apagado)
+# Uso: SecDesk_WiFi 192.168.x.x
+function SecDesk_WiFi() {
+    if [[ -z "$1" ]]; then
+        echo "⚠️  Comando incompleto. Falta el objetivo."
+        echo "Uso correcto: SecDesk_WiFi <IP_DE_LA_TABLET>"
+        return 1
+    fi
+    
+    local TARGET_IP="$1"
+    
+    echo "🌐 Trazando ruta a $TARGET_IP..."
+    adb connect "$TARGET_IP:5555"
+    sleep 1
+    
+    echo "⚡ Iniciando SecDesk Protocol Oculto (H.265 + 12M + Vulkan)..."
+    adb shell am kill-all
+    adb shell settings put system screen_brightness_mode 0
+    adb shell settings put system screen_brightness 0
+    
+    (
+        env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy \
+            --stay-awake \
+            --new-display=1920x1080 \
+            --video-codec=h265 \
+            --video-bit-rate 16M \
+            --max-fps 85 \
+            --audio-codec=opus \
+            --audio-bit-rate 128K \
+            --audio-buffer=50 \
+            --fullscreen > /dev/null 2>&1
+        
+        adb shell settings put system screen_brightness_mode 1
+    ) &!
+    
+    echo "✅ Enlace SecDesk establecido en las sombras. Ya puedes cerrar esta terminal."
+}
+
+# Mirror Wireless: Espejo exacto para S-Pen/Reuniones (Pantalla activa)
+# Uso: Mirror_WiFi 192.168.x.x
+function Mirror_WiFi() {
+    if [[ -z "$1" ]]; then
+        echo "⚠️  Comando incompleto. Falta el objetivo."
+        echo "Uso correcto: Mirror_WiFi <IP_DE_LA_TABLET>"
+        return 1
+    fi
+
+    local TARGET_IP="$1"
+    
+    echo "🌐 Trazando ruta a $TARGET_IP..."
+    adb connect "$TARGET_IP:5555"
+    sleep 1
+    
+    echo "⚡ Iniciando Mirror Protocol Fantasma (H.265 + 12M + Vulkan)..."
+    (
+        env SDL_VIDEODRIVER=wayland SDL_RENDER_DRIVER=vulkan scrcpy \
+            --stay-awake \
+            --video-codec=h265 \
+            --video-bit-rate 16M \
+            --max-fps 85 \
+            --fullscreen > /dev/null 2>&1
+    ) &!
+    
+    echo "✅ Mirror ejecutándose. Terminal liberada."
 }
 
