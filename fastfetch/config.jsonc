@@ -40,7 +40,7 @@
     { "type": "uptime",   "key": "  Uptime                ",  "keyColor": "magenta" },
     { "type": "packages", "key": "  Packages              ",  "keyColor": "magenta" },
     { "type": "shell",    "key": "  Shell                 ",  "keyColor": "magenta" },
-    { "type": "display",  "key": "  Display (MSI G2412)   ",  "keyColor": "magenta" },
+    { "type": "display",  "key": "  Display               ",  "keyColor": "magenta" },
     { "type": "de",       "key": "  DE                    ",  "keyColor": "magenta" },
     { "type": "wm",       "key": "  WM                    ",  "keyColor": "magenta" },
     { "type": "terminal", "key": "  Terminal              ",  "keyColor": "magenta" },
