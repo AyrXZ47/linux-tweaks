@@ -1,4 +1,4 @@
-sleep 0.25
+sleep 0.5
 fastfetch
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -15,6 +15,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -129,8 +130,6 @@ function gpu-matrix() {
     echo "Presiona 'q' para salir del modo netrunner."
     btop -p 1  # -p 1 fuerza el preset 1 si lo tienes configurado, o solo btop
 }
-
-
 
 
 
@@ -341,3 +340,38 @@ esac
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+
+
+# Descargar una sola canción usando la URL copiada en el portapapeles (Ignora playlists)
+ytsong() {
+    local url=$(wl-paste)
+    echo "Extracción quirúrgica en progreso: $url"
+    yt-dlp --no-playlist --extract-audio --audio-format opus --audio-quality 0 --embed-metadata --embed-thumbnail --js-runtimes node --cookies-from-browser firefox -o "%(uploader)s - %(title)s.%(ext)s" "$url"
+}
+
+# Descargar una playlist entera usando la URL copiada en el portapapeles
+ytlist() {
+    local url=$(wl-paste)
+    echo "Extrayendo playlist de: $url"
+    yt-dlp --ignore-errors --extract-audio --audio-format opus --audio-quality 0 --embed-metadata --embed-thumbnail --js-runtimes node --cookies-from-browser firefox --download-archive historial_descargas.txt --sleep-interval 3 --max-sleep-interval 8 -o "%(uploader)s - %(title)s.%(ext)s" "$url"
+}
+
+
+
+
+# Función para optimizar videos para edición
+preparar_videos() {
+    # Crea el directorio si no existe
+    mkdir -p listos_para_editar
+    
+    # El (N) al final asegura que si no hay .mp4, el bucle no falle
+    for f in *.mp4(N); do
+        if [[ ! -f "listos_para_editar/$f" ]]; then
+            echo "🔥 Extrayendo máxima calidad visual para: $f"
+            ffmpeg -i "$f" -vf "scale='if(gt(iw,ih),2560,1440)':-2:flags=lanczos,format=yuv420p" -c:v libx264 -preset slow -crf 17 -r 30 -c:a copy "listos_para_editar/$f"
+        else
+            echo "⏭️ Saltando: $f (Ya optimizado en el sistema)"
+        fi
+    done
+}
+
