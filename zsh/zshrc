@@ -1,4 +1,4 @@
-sleep 1 
+sleep 0.666 
 fastfetch
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
