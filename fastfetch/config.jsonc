@@ -13,7 +13,7 @@
   },
 
   "logo": {
-    "type": "kitty-direct",
+    "type": "kitty",
     "source": "~/linux-tweaks/fastfetch/terminalCyberpunk.png",
     "width": 43,
     "height": 19,
