@@ -15,12 +15,12 @@
   "logo": {
     "type": "kitty",
     "source": "~/linux-tweaks/fastfetch/terminalCyberpunk.png",
-    "width": 43,
-    "height": 19,
+    "width": 30,
+    "height": 13,
     "padding": {
-      "top": 2,
-      "left": 6,
-      "right": 9
+      "top": 3,
+      "left": 2,
+      "right": 4
     }
   },
 
