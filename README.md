@@ -117,8 +117,15 @@ Una vez instalado todo, el siguiente paso es aplicar las configuraciones desde e
     b. **Crea los enlaces para los plugins personalizados:**
     ```bash
     mkdir -p ~/.config/nvim/lua/plugins
-    ln -s "$(pwd)/nvim/theme-cyberpunk-neon.lua" "$HOME/.config/nvim/lua/plugins/theme-cyberpunk-neon.lua"
-    ln -s "$(pwd)/nvim/smear-cursor.lua" "$HOME/.config/nvim/lua/plugins/smear-cursor.lua"
+    mkdir -p ~/.config/nvim/lua/config
+    ln -sf "$(pwd)/nvim/theme-cyberpunk-neon.lua" "$HOME/.config/nvim/lua/plugins/theme-cyberpunk-neon.lua"
+    ln -sf "$(pwd)/nvim/smear-cursor.lua" "$HOME/.config/nvim/lua/plugins/smear-cursor.lua"
+
+    # Sistema de Notas (Obsidian)
+    ln -sf "$(pwd)/nvim/obsidian.lua" "$HOME/.config/nvim/lua/plugins/obsidian.lua"
+
+    # Archivo central de LazyVim (Activa el colorscheme automáticamente)
+    ln -sf "$(pwd)/nvim/lazy.lua" "$HOME/.config/nvim/lua/config/lazy.lua"
     ```
 
     c. **Activa el tema en la configuración de LazyVim:**
@@ -275,6 +282,8 @@ Para lograr una experiencia de escritorio más completa y visualmente atractiva 
     *   `GSConnect`: Integra tu dispositivo Android con el escritorio GNOME.
     *   `Quick Settings Audio Panel` (del autor `Rayzeq`): Mejora el panel de control de audio.
     *   `Rounded Corners` (del autor `lennart-k`): Suaviza las esquinas de las ventanas.
+    *   `Burn My Windows`: (simme)
+    *   `Desktop cube`: (simme)
 
 3.  **Aplicar Temas de Iconos y Cursores:**
     *   Como `sudo nautilus` ya no es recomendado en muchas distros, instalaremos los temas desde la terminal:
@@ -301,10 +310,8 @@ Para lograr una experiencia de escritorio más completa y visualmente atractiva 
 
 Para replicar una parte de esta configuración en Termux:
 
-1.  **Desde F-Droid, instala:**
+1.  **Desde github, instala:**
     *   `Termux`
-    *   `Termux:API`
-    *   `Termux:Styling`
 
 2.  **Permisos de almacenamiento:**
     Es crucial dar a Termux acceso al almacenamiento. Ejecuta este comando y acepta el permiso:
@@ -319,13 +326,24 @@ Para replicar una parte de esta configuración en Termux:
     ```
 
 4.  Sigue los pasos de instalación y configuración de **Zsh** y **Neovim** de las secciones anteriores, ya que son muy similares.
+    ```bash
+    ln -sf ~/storage/shared/Sync ~/Sync
+    ```
 
+    ```
 5.  **Instalación de Gemini CLI (si falla el método normal):**
     Si `npm install -g @google/gemini-cli` da errores, es probable que necesites especificar la ruta del NDK de Android:
     ```bash
     GYP_DEFINES="android_ndk_path=/data/data/com.termux/files/usr/lib/ndk" npm install -g @google/gemini-cli
     ```
 
+6. **Aplicar Estética y Fuentes sin aplicaciones extra:**
+  ```bash
+    mkdir -p ~/.termux
+    curl -fLo ~/.termux/colors.properties [https://raw.githubusercontent.com/termux/termux-styling/master/app/src/main/assets/colors/argonaut.properties](https://raw.githubusercontent.com/termux/termux-styling/master/app/src/main/assets/colors/argonaut.properties)
+    termux-reload-settings
+    ```
+    ```
 ---
 
 ## Licencia
