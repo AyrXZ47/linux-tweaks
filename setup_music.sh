@@ -10,7 +10,7 @@ LOCAL_CONF="$HOME/.config/mpd/mpd_local.conf"
 if [ "$(uname -o)" == "Android" ]; then
   echo "🤖 Configurando entorno para Termux (Android)..."
   cat <<'EOF' >"$LOCAL_CONF"
-music_directory "~/Sync/My Music"
+music_directory "~/storage/shared/Sync/My Music"
 
 audio_output {
     type "pulse"
@@ -21,7 +21,7 @@ audio_output {
     type "fifo"
     name "my_fifo"
     path "/tmp/mpd.fifo"
-    format "44100:16:2"
+    format "48000:16:2"
 }
 EOF
 else
