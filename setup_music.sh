@@ -10,18 +10,18 @@ LOCAL_CONF="$HOME/.config/mpd/mpd_local.conf"
 if [ "$(uname -o)" == "Android" ]; then
   echo "🤖 Configurando entorno para Termux (Android)..."
   cat <<'EOF' >"$LOCAL_CONF"
-  music_directory "/data/data/com.termux/files/home/storage/shared/Sync/My Music"
-
+music_directory "/data/data/com.termux/files/home/storage/shared/Sync/My Music"
 
 audio_output {
     type "pulse"
     name "Termux Audio"
 }
 
+# AQUÍ EL CAMBIO SOLO PARA ANDROID: Usamos la carpeta segura de Termux
 audio_output {
     type "fifo"
     name "my_fifo"
-    path "/tmp/mpd.fifo"
+    path "/data/data/com.termux/files/home/mpd.fifo" 
     format "48000:16:2"
 }
 EOF
@@ -35,6 +35,7 @@ audio_output {
     name "Fedora Audio"
 }
 
+# AQUÍ TU PC SE QUEDA INTACTA: Usamos /tmp/ normal de Linux
 audio_output {
     type "fifo"
     name "my_fifo"
