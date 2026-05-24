@@ -10,7 +10,8 @@ LOCAL_CONF="$HOME/.config/mpd/mpd_local.conf"
 if [ "$(uname -o)" == "Android" ]; then
   echo "🤖 Configurando entorno para Termux (Android)..."
   cat <<'EOF' >"$LOCAL_CONF"
-music_directory "~/storage/shared/Sync/My Music"
+  music_directory "/data/data/com.termux/files/home/storage/shared/Sync/My Music"
+
 
 audio_output {
     type "pulse"
