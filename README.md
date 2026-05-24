@@ -262,6 +262,18 @@ Puedes lanzar PWAs de Firefox como si fueran aplicaciones nativas y asignarles a
 
 ---
 
+### Movimiento en la terminal
+1. cava
+```bash
+  dnf install alsa-lib-devel fftw3-devel pulseaudio-libs-devel libtool iniparser-devel pkgconf
+```
+2. pipes-rs
+```bash
+  cargo install pipes-rs
+```
+
+---
+
 ### Personalización de GNOME
 
 Para lograr una experiencia de escritorio más completa y visualmente atractiva en GNOME, sigo estos pasos:
@@ -303,6 +315,54 @@ Para lograr una experiencia de escritorio más completa y visualmente atractiva 
 4.  **Personalizar Pantalla de Login (GDM):**
     *   Abre la aplicación **GDM Settings**.
     *   Desde aquí, puedes seleccionar una imagen de fondo de pantalla y un logo personalizados para la pantalla de inicio de sesión. Las imágenes que uso suelen estar en mi carpeta de `Imágenes`. Este paso es más manual y a gusto personal.
+
+---
+
+# 🎵 Terminal Music Player Ecosystem (MPD + ncmpcpp)
+
+Este módulo de mis *dotfiles* automatiza la configuración de un entorno musical minimalista, ligero y sincronizado entre múltiples dispositivos (PC de escritorio, Laptop y entornos Android mediante Termux). 
+
+Utiliza **MPD (Music Player Daemon)** como motor de audio en segundo plano, **ncmpcpp** como interfaz visual en la terminal y **Syncthing** para mantener la biblioteca de música (`.opus` a 48kHz) unificada.
+
+## 🛠️ Estructura del Setup
+La configuración está dividida de forma modular para no romper entornos de producción:
+* `mpd.conf`: Configuración universal (rutas de base de datos, estados y comportamiento general).
+* `mpd_local.conf`: Configuración dinámica generada por el script de instalación para aislar las salidas de audio y rutas de almacenamiento según el sistema operativo.
+
+---
+
+## 🚀 Instalación y Despliegue
+
+### 1. En Linux (Fedora - Workstation / Laptop)
+A diferencia de Android, en Linux el ciclo de vida de los servicios se gestiona nativamente con `systemd`.
+
+```bash
+# 1. Instalar el arsenal nativo
+sudo dnf install mpd mpc ncmpcpp mpDris2
+
+# 2. Correr el script de automatización
+./setup_music.sh
+
+# 3. Habilitar y arrancar los servicios en el espacio de usuario
+systemctl --user enable --now mpd mpDris2
+
+# 4. Configurar el crossfade nativo del motor (4 segundos)
+mpc crossfade 4
+
+
+##Termux
+# 1. Instalar paquetes requeridos en el entorno aislado
+pkg install mpd mpc ncmpcpp pulseaudio termux-api -y
+
+# 2. Correr el script (detectará automáticamente el entorno Android)
+./setup_music.sh
+
+# 3. Iniciar el servidor de audio y el motor manualmente
+pulseaudio --start
+mpd
+
+ncmpcpp -h ::1
+
 
 ---
 
