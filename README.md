@@ -123,6 +123,8 @@ Una vez instalado todo, el siguiente paso es aplicar las configuraciones desde e
 
     # Sistema de Notas (Obsidian)
     ln -sf "$(pwd)/nvim/obsidian.lua" "$HOME/.config/nvim/lua/plugins/obsidian.lua"
+    ln -sf "$(pwd)/nvim/render-markdown.lua" "$HOME/.config/nvim/lua/plugins/render-markdown.lua"
+    ln -sf "$(pwd)/nvim/img-clip.lua" "$HOME/.config/nvim/lua/plugins/img-clip.lua"
 
     # Archivo central de LazyVim (Activa el colorscheme automáticamente)
     ln -sf "$(pwd)/nvim/lazy.lua" "$HOME/.config/nvim/lua/config/lazy.lua"
@@ -363,10 +365,10 @@ mpd
 
 ncmpcpp -h ::1
 
-
+    ```
 ---
 
-## Termux (Android)
+# Termux (Android)
 
 Para replicar una parte de esta configuración en Termux:
 
@@ -402,9 +404,10 @@ Para replicar una parte de esta configuración en Termux:
     mkdir -p ~/.termux
     curl -fLo ~/.termux/colors.properties [https://raw.githubusercontent.com/termux/termux-styling/master/app/src/main/assets/colors/argonaut.properties](https://raw.githubusercontent.com/termux/termux-styling/master/app/src/main/assets/colors/argonaut.properties)
     termux-reload-settings
-    ```
-    ```
----
+
+
+```
+
 
 ## Licencia
 
