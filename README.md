@@ -368,6 +368,59 @@ ncmpcpp -h ::1
     ```
 ---
 
+## Sincronización de YouTube Music (Respaldo de "Me Gusta")
+
+Este módulo incluye un script (`sync_likes.py`) diseñado para extraer tu lista maestra de "Me Gusta" de YouTube Music y respaldarla automáticamente en playlists públicas, evadiendo los límites de visualización nativos de la aplicación.
+
+### 1. Preparar el Entorno (Python)
+Para mantener el sistema limpio y evitar conflictos de dependencias, utilizaremos un entorno virtual. Ejecuta lo siguiente desde la raíz del repositorio:
+
+```bash
+# Navegar al directorio del script
+cd YT/
+
+# Crear y activar un entorno virtual aislado
+python3 -m venv venv
+source venv/bin/activate
+
+# Instalar la librería requerida
+pip install ytmusicapi
+
+sudo dnf install yt-dlp
+
+```
+### 2. Autenticación (Crear browser.json)
+
+El script necesita acceso a tu cuenta a través de las cabeceras de sesión de tu navegador. Para generar el archivo browser.json de forma segura:
+
+    Abre YouTube Music en tu navegador e inicia sesión.
+
+    Presiona F12 para abrir las herramientas de desarrollador y ve a la pestaña Red (Network).
+
+    Recarga la página (F5).
+
+    En la barra de filtro de la pestaña Red, escribe browse.
+
+    Haz clic derecho sobre una de las peticiones que aparezcan en la lista, selecciona Copiar y luego Copiar cabeceras de petición (Copy Request Headers).
+
+    Regresa a tu terminal (asegúrate de seguir dentro de la carpeta YT/ con el entorno virtual activado) y ejecuta:
+    Bash
+
+    ytmusicapi browser
+
+    Pega las cabeceras que copiaste en la terminal y presiona Ctrl + D (EOF). Esto generará automáticamente el archivo browser.json que el script necesita.
+
+### 3. Ejecución del Script
+
+Una vez que tengas el entorno activado y el archivo browser.json en la misma carpeta, simplemente ejecuta el comando de sincronización:
+Bash
+
+python sync_likes.py
+
+
+
+---
+
 # Termux (Android)
 
 Para replicar una parte de esta configuración en Termux:
