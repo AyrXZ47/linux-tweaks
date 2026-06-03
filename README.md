@@ -364,11 +364,11 @@ pulseaudio --start
 mpd
 
 ncmpcpp -h ::1
+```
 
-    ```
 ---
 
-## Sincronización de YouTube Music (Respaldo de "Me Gusta")
+# Sincronización de YouTube Music (Respaldo de "Me Gusta")
 
 Este módulo incluye un script (`sync_likes.py`) diseñado para extraer tu lista maestra de "Me Gusta" de YouTube Music y respaldarla automáticamente en playlists públicas, evadiendo los límites de visualización nativos de la aplicación.
 
