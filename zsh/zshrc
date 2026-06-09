@@ -359,20 +359,29 @@ ytlist() {
 
 
 
-
-supersampling() {
+estabilizar_clips() {
     mkdir -p listos_para_editar
     for f in *.mp4(N); do
         if [[ ! -f "listos_para_editar/$f" ]]; then
-            echo "🔥 Extrayendo máxima calidad visual para: $f"
-            # Añadidos: -threads 0 y -fps_mode cfr
-            ffmpeg -i "$f" -threads 0 -vf "scale='if(gt(iw,ih),2560,1440)':-2:flags=lanczos,format=yuv420p" -c:v libx264 -preset slow -crf 17 -fps_mode cfr -r 30 -c:a copy "listos_para_editar/$f"
+            echo "🔥 Estabilizando frames a CFR (4K nativo) para: $f"
+            # Se eliminó el filtro -vf scale. Ahora procesa el video tal cual entra, solo ajustando los fps.
+            ffmpeg -i "$f" -threads 0 -c:v libx264 -preset slow -crf 17 -fps_mode cfr -r 30 -c:a copy "listos_para_editar/$f"
         else
-            echo "⏭️ Saltando: $f (Ya optimizado en el sistema)"
+            echo "⏭️ Saltando: $f (Ya estabilizado en el sistema)"
         fi
     done
 }
 
-
-
-
+estabilizar_clips_gpu() {
+    mkdir -p listos_para_editar
+    for f in *.mp4(N); do
+        if [[ ! -f "listos_para_editar/$f" ]]; then
+            echo "🚀 Acelerador a fondo: Estabilizando CFR por GPU para -> $f"
+            
+            ffmpeg -vaapi_device /dev/dri/renderD128 -i "$f" -vf "format=nv12,hwupload" -c:v h264_vaapi -qp 18 -fps_mode cfr -r 30 -c:a copy "listos_para_editar/$f"
+            
+        else
+            echo "⏭️ Saltando: $f (Ya estabilizado en el sistema)"
+        fi
+    done
+}
