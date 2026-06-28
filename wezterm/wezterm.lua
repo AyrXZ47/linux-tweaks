@@ -11,16 +11,21 @@ config.font_size = 16.0
 -- [[ APARIENCIA Y "CHROME" ]]
 config.window_decorations = "NONE"
 
+-- TRANSPARENCIA GLOBAL (La pieza clave)
+config.window_background_opacity = 0.66
+-- Evita que los bloques de texto sean transparentes y afecten la lectura
+config.text_background_opacity = 1.0
+
 -- 1. ADIÓS A LA BARRA GRIS
 -- Desactivamos la barra gruesa para usar la versión plana y coloreable
 config.use_fancy_tab_bar = false
-config.hide_tab_bar_if_only_one_tab = false -- Cámbialo a true si quieres que desaparezca cuando solo hay 1 pestaña
+config.hide_tab_bar_if_only_one_tab = true -- Cámbialo a true si quieres que desaparezca cuando solo hay 1 pestaña
 
 -- 2. COLORES NEÓN PARA LOS TÍTULOS (PESTAÑAS)
 config.colors = {
 	tab_bar = {
 		-- Fondo transparente para que no parezca una "barra", solo pestañas flotando
-		background = "rgba(0, 0, 0, 0)",
+		background = "rgba(20, 10, 85, 0.66)",
 
 		-- Pestaña activa en Cian eléctrico
 		active_tab = {
