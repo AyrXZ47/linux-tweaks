@@ -184,6 +184,7 @@ Para evitar que Chrome y derivados ajusten el volumen de tu micrófono:
 
 ### Firefox (Estilo Cyberpunk y PWAs)
 
+
 #### Personalización Visual (userChrome.css)
 
 Mi personalización de Firefox depende de varios archivos `css` para lograr la estética deseada, incluyendo la capacidad de auto-ocultar la barra de herramientas y moverla a la parte inferior.
@@ -191,6 +192,7 @@ Mi personalización de Firefox depende de varios archivos `css` para lograr la e
 1. **Habilitar `userChrome.css`:**
    * Abre Firefox y ve a la página `about:config`.
    * Busca la preferencia `toolkit.legacyUserProfileCustomizations.stylesheets` y asegúrate de que esté en `true`.
+   * > aprovecha a cambiar `layers.acceleration.force-enabled` a `true`.
 
 2. **Encontrar tu Perfil de Firefox:**
    * Ve a `about:profiles` en Firefox.
