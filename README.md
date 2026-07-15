@@ -192,7 +192,7 @@ Mi personalización de Firefox depende de varios archivos `css` para lograr la e
 1. **Habilitar `userChrome.css`:**
    * Abre Firefox y ve a la página `about:config`.
    * Busca la preferencia `toolkit.legacyUserProfileCustomizations.stylesheets` y asegúrate de que esté en `true`.
-   * > aprovecha a cambiar `layers.acceleration.force-enabled` a `true`.
+   
 
 2. **Encontrar tu Perfil de Firefox:**
    * Ve a `about:profiles` en Firefox.
