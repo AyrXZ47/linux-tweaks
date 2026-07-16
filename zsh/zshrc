@@ -223,8 +223,7 @@ function subtitular() {
 
 
 # opencode
-export PATH=/home/yovick/.opencode/bin:$PATH
-
+export PATH="$HOME/.opencode/bin:$PATH"
 
 
 
