@@ -6,7 +6,7 @@ config.set_environment_variables = { COLORTERM = "truecolor" }
 config.term = "xterm-256color"
 config.color_scheme = "Cyberdyne"
 config.font = wezterm.font("JetBrains Mono Nerd Font")
-config.font_size = 16.0
+config.font_size = 14.0
 
 -- [[ APARIENCIA Y "CHROME" ]]
 config.window_decorations = "NONE"
