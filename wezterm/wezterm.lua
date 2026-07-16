@@ -20,7 +20,7 @@ config.inactive_pane_hsb = {
 }
 
 -- TRANSPARENCIA GLOBAL
-config.window_background_opacity = 0.66
+config.window_background_opacity = 0.85
 config.text_background_opacity = 1.0
 
 -- ADIÓS A LA BARRA GRIS
@@ -30,7 +30,7 @@ config.hide_tab_bar_if_only_one_tab = true
 -- [[ COLORES Y EL INDICADOR ROJO ]]
 config.colors = {
 	tab_bar = {
-		background = "rgba(21, 17, 68, 0.66)",
+		background = "rgba(21, 17, 68, 0.85)",
 		active_tab = {
 			bg_color = "#00f0ff",
 			fg_color = "#0b0814",
