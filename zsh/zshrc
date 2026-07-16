@@ -114,22 +114,65 @@ export PATH="$PATH:/home/yovick/.local/bin"
 # Le dice a Aider dónde encontrar el servidor de Ollama
 # -----------------------------------------------------------------
 export OLLAMA_API_BASE="http://127.0.0.1:11434"
-# --- CYBERDECK GPU MONITORING ---
-# Nivel 1: Datos Crudos (Solo texto, actualización rápida)
-# Muestra: Temp, Uso de VRAM, Uso de GPU, Consumo en Watts
-alias gpu-stats='watch -n 0.5 --color "rocm-smi --showtemp --showuse --showmeminfo vram --showpower"'
-# Nivel 2: Modo Vigilancia (Solo si instalaste btop)
-# Lanza un dashboard visual completo
-alias netrunner='btop -u 500'
-# Nivel 3: El "Hacker de Película" (Matrix Style con CMatrix + GPU)
-# Este es puro show: Muestra datos de la GPU encima de la lluvia de Matrix
-# Requiere 'cmatrix' (sudo dnf install cmatrix) si quieres el fondo, si no, usa el de arriba.
-function gpu-matrix() {
-    echo "Iniciando enlace con el núcleo de la GPU..."
-    rocm-smi --showtemp --showpower
-    echo "--------------------------------"
-    echo "Presiona 'q' para salir del modo netrunner."
-    btop -p 1  # -p 1 fuerza el preset 1 si lo tienes configurado, o solo btop
+
+
+
+
+# --- CYBERDECK MONITORING PROTOCOL ---
+function netrunner() {
+    # 1. Usamos el comando exacto que probamos, delegándole nativamente la ejecución de nvtop
+    wezterm cli split-pane --right -- nvtop
+    
+    # 2. btop toma el control del panel principal izquierdo
+    btop
+}
+
+
+
+# --- DEVOPS BATTLESTATION PROTOCOL ---
+function dev() {
+    if [[ -z "$WEZTERM_PANE" ]]; then
+        echo "❌ Error: Inicialización fallida. Se requiere entorno WezTerm activo."
+        return 1
+    fi
+
+    echo "Iniciando despliegue simétrico de agentes..."
+
+    # ==========================================
+    # LÍNEA DE DIVISIÓN HORIZONTAL CENTRAL
+    # ==========================================
+    # Partimos la pantalla en dos bloques: Superior (Nvim/Opencode) e Inferior (Agentes/Cava)
+    local PANE_BOTTOM_BLOCK=$(wezterm cli split-pane --pane-id "$WEZTERM_PANE" --bottom --percent 35)
+
+    # ==========================================
+    # BLOQUE SUPERIOR (Nvim & Opencode)
+    # ==========================================
+    # Dividimos el bloque superior verticalmente a la mitad.
+    # El panel original ($WEZTERM_PANE) se queda a la izquierda. El nuevo va a la derecha.
+    local PANE_OPENCODE=$(wezterm cli split-pane --pane-id "$WEZTERM_PANE" --right --percent 40 -- zsh -ic "opencode")
+
+    # ==========================================
+    # BLOQUE INFERIOR (Pipes, Aider, Clean, Cava)
+    # ==========================================
+    # 1. Creamos el panel de Cava en el extremo derecho del bloque inferior.
+    # Al darle 50%, ocupará exactamente el mismo ancho que tiene opencode arriba.
+    local PANE_CAVA=$(wezterm cli split-pane --pane-id "$PANE_BOTTOM_BLOCK" --right --percent 50 -- zsh -ic "cava")
+
+    # 2. En el espacio restante de la izquierda abajo, mandamos pipes-rs al extremo izquierdo.
+    local PANE_PIPES=$(wezterm cli split-pane --pane-id "$PANE_BOTTOM_BLOCK" --left --percent 10 -- zsh -ic "pipes-rs")
+
+    # 3. Lo que quedó en medio abajo es el entorno del Junior (Aider).
+    # Le robamos el 30% inferior para la terminal limpia de control de Git.
+    local PANE_CLEAN=$(wezterm cli split-pane --pane-id "$PANE_BOTTOM_BLOCK" --bottom --percent 30)
+
+    # ==========================================
+    # INYECCIÓN DE COMANDOS INTERACTIVOS
+    # ==========================================
+    # Levantamos a Aider en el centro inferior
+    echo "aider\r" | wezterm cli send-text --pane-id "$PANE_BOTTOM_BLOCK"
+
+    # Levantamos a Neovim en el extremo superior izquierdo
+    echo "nvim\r" | wezterm cli send-text --pane-id "$WEZTERM_PANE"
 }
 
 

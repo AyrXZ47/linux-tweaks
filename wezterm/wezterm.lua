@@ -9,64 +9,53 @@ config.font = wezterm.font("JetBrains Mono Nerd Font")
 config.font_size = 14.0
 
 -- [[ APARIENCIA Y "CHROME" ]]
+-- Esto permite que la ventana se pegue perfectamente a la barra de GNOME
 config.window_decorations = "NONE"
 
--- TRANSPARENCIA GLOBAL (La pieza clave)
+-- [[ SOLUCIÓN: LUZ TOTAL PARA PANELES INACTIVOS ]]
+-- Esto mata el filtro oscuro de WezTerm. Todos los paneles tendrán el mismo color y brillo.
+config.inactive_pane_hsb = {
+	saturation = 1.0,
+	brightness = 1.0,
+}
+
+-- TRANSPARENCIA GLOBAL
 config.window_background_opacity = 0.66
--- Evita que los bloques de texto sean transparentes y afecten la lectura
 config.text_background_opacity = 1.0
 
--- 1. ADIÓS A LA BARRA GRIS
--- Desactivamos la barra gruesa para usar la versión plana y coloreable
+-- ADIÓS A LA BARRA GRIS
 config.use_fancy_tab_bar = false
-config.hide_tab_bar_if_only_one_tab = true -- Cámbialo a true si quieres que desaparezca cuando solo hay 1 pestaña
+config.hide_tab_bar_if_only_one_tab = true
 
--- 2. COLORES NEÓN PARA LOS TÍTULOS (PESTAÑAS)
+-- [[ COLORES Y EL INDICADOR ROJO ]]
 config.colors = {
 	tab_bar = {
-		-- Fondo transparente para que no parezca una "barra", solo pestañas flotando
-		background = "rgba(20, 10, 85, 0.66)",
-
-		-- Pestaña activa en Cian eléctrico
+		background = "rgba(21, 17, 68, 0.66)",
 		active_tab = {
 			bg_color = "#00f0ff",
 			fg_color = "#0b0814",
 			intensity = "Bold",
 		},
-
-		-- Pestañas en segundo plano en Rosa/Morado oscuro
 		inactive_tab = {
 			bg_color = "#1a0b1c",
 			fg_color = "#ff003c",
 		},
-
-		-- Color al pasar el ratón por encima
 		inactive_tab_hover = {
 			bg_color = "#ff003c",
 			fg_color = "#0b0814",
 		},
 	},
+
+	-- EL INDICADOR: Cursor rojo neón brillante en la ventana activa
+	cursor_bg = "#ff003c",
+	cursor_border = "#ff003c",
+	cursor_fg = "#0b0814",
+
+	-- Opcional: Las líneas divisorias entre paneles en un color discreto
+	split = "#1a0b1c",
 }
 
--- 3. CORRECCIÓN DEL FONDO (El error de los comandos)
-config.background = {
-	{
-		source = { Color = "#000000" },
-		opacity = 0.66,
-	},
-	{
-		source = { File = wezterm.config_dir .. "/neon_frame.png" },
-		horizontal_align = "Center",
-		vertical_align = "Middle",
-		repeat_x = "NoRepeat",
-		repeat_y = "NoRepeat",
-		-- Aquí está la corrección de sintaxis
-		width = "100%",
-		height = "100%",
-		opacity = 0.66,
-	},
-}
-
+-- Padding interno (no afecta el borde exterior contra GNOME)
 config.window_padding = { left = 30, right = 30, top = 30, bottom = 30 }
 config.initial_cols = 110
 config.initial_rows = 30
