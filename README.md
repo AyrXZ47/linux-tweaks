@@ -320,8 +320,29 @@ Para lograr una experiencia de escritorio más completa y visualmente atractiva 
 ```bash
 curl -LsSf https://aider.chat/install.sh | sh
 # Ejemplo de uso con un modelo local
-aider --model ollama/qwen2.5-coder:7b
+aider --model ollama/qwen3.6:35b
 ```
+
+
+#### Plugins utiles
+
+* ponytail
+```bash
+# clona esto en cada repo en el que vayas a programar con agentes. Son reglas de programador senior perezoso.
+
+wget https://raw.githubusercontent.com/DietrichGebert/ponytail/main/AGENTS.md
+
+```
+
+* Headroom
+```bash
+# Reduce drásticamente la ventana de contexto.
+
+uv tool install --python 3.13 "headroom-ai[all]"
+
+headroom wrap aider --model openai/qwen3.6:35b --openai-api-key="headroom"
+```
+
 
 ### OpenCode (Agente IA local con Ollama)
 
