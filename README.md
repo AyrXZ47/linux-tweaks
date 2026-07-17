@@ -285,12 +285,13 @@ Para lograr una experiencia de escritorio más completa y visualmente atractiva 
 2. **Instalar Extensiones de GNOME:**
    Usa la aplicación `Extension Manager` que instalaste para buscar e instalar las siguientes extensiones:
    * `Blur my Shell` (del autor `aunetx`): Añade un efecto de desenfoque al escritorio y al overview.
-   * `Control monitor brightness and volume with ddcutil` (del autor `nei`): Permite controlar el brillo y volumen de monitores externos.
    * `GSConnect`: Integra tu dispositivo Android con el escritorio GNOME.
    * `Quick Settings Audio Panel` (del autor `Rayzeq`): Mejora el panel de control de audio.
-   * `Rounded Corners` (del autor `lennart-k`): Suaviza las esquinas de las ventanas.
-   * `Burn My Windows`
-   * `Desktop cube`
+   * `Burn My Windows` (puede generar stuttering)
+   * `Desktop cube` (puede generar stuttering)
+   * `Brightness control using ddcutil` 
+   * `Color Picker`
+   * `Hide Top Bar`
 
 3. **Aplicar Temas de Iconos y Cursores:**
    * Como `sudo nautilus` ya no es recomendado en muchas distros, instalaremos los temas desde la terminal:
@@ -342,6 +343,32 @@ uv tool install --python 3.13 "headroom-ai[all]"
 
 headroom wrap aider --model openai/qwen3.6:35b --openai-api-key="headroom"
 ```
+
+### Headroom Proxy (Servicio en Segundo Plano)
+Para iniciar el proxy de optimización de contexto automáticamente en cualquier máquina:
+
+```bash
+mkdir -p ~/.config/systemd/user
+ln -sf "$(pwd)/systemd/user/headroom-proxy.service" "$HOME/.config/systemd/user/headroom-proxy.service"
+systemctl --user daemon-reload
+systemctl --user enable --now headroom-proxy.service
+```
+
+> Para integrarlo con obsidian para el plugin https://github.com/takeshy/obsidian-local-llm-hub
+Ajuste de Framework:
+
+    En la sección Llm settings, cambia la opción Framework a LM Studio (OpenAI compatible)
+
+Enrutamiento al Proxy:
+
+    En el campo Base URL, borra el puerto de Ollama y escribe la dirección del proxy genérico de Headroom: [http://127.0.0.1:8787/v1](http://127.0.0.1:8787/v1)
+
+Credenciales y Modelo:
+
+    En API key (optional), escribe headroom.
+
+    En el campo Model, no uses el botón de buscar. Escribe manualmente el modelo ligero precedido por el formato que espera el proxy: openai/qwen3.6:9b
+
 
 
 ### OpenCode (Agente IA local con Ollama)
