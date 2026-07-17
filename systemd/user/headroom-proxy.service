@@ -1,0 +1,13 @@
+[Unit]
+Description=Headroom Proxy Service (User Level)
+After=network-online.target
+
+[Service]
+Type=simple
+Environment=HEADROOM_OUTPUT_SHAPER=1
+# %h se expande automáticamente a /home/usuario en cualquier máquina
+ExecStart=%h/.local/bin/headroom proxy --port 8787
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
