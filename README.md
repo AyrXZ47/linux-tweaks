@@ -341,7 +341,7 @@ wget https://raw.githubusercontent.com/DietrichGebert/ponytail/main/AGENTS.md
 
 uv tool install --python 3.13 "headroom-ai[all]"
 
-headroom wrap aider --model openai/qwen3.6:35b --openai-api-key="headroom"
+headroom wrap aider --model ollama/qwen3.6:35b
 ```
 
 ### Headroom Proxy (Servicio en Segundo Plano)
