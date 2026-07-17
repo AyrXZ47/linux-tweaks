@@ -354,22 +354,6 @@ systemctl --user daemon-reload
 systemctl --user enable --now headroom-proxy.service
 ```
 
-> Para integrarlo con obsidian para el plugin https://github.com/takeshy/obsidian-local-llm-hub
-Ajuste de Framework:
-
-    En la sección Llm settings, cambia la opción Framework a LM Studio (OpenAI compatible)
-
-Enrutamiento al Proxy:
-
-    En el campo Base URL, borra el puerto de Ollama y escribe la dirección del proxy genérico de Headroom: [http://127.0.0.1:8787/v1](http://127.0.0.1:8787/v1)
-
-Credenciales y Modelo:
-
-    En API key (optional), escribe headroom.
-
-    En el campo Model, no uses el botón de buscar. Escribe manualmente el modelo ligero precedido por el formato que espera el proxy: openai/qwen3.6:9b
-
-
 
 ### OpenCode (Agente IA local con Ollama)
 
