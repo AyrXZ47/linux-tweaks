@@ -361,7 +361,7 @@ systemctl --user enable --now headroom-proxy.service
 curl -fsSL https://opencode.ai/install | bash
 
 # Ejecutar OpenCode con Ollama
-ollama launch opencode
+headroom wrap opencode
 ```
 
 ### Gemini CLI
