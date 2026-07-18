@@ -149,7 +149,7 @@ function dev() {
     # ==========================================
     # Dividimos el bloque superior verticalmente a la mitad.
     # El panel original ($WEZTERM_PANE) se queda a la izquierda. El nuevo va a la derecha.
-    local PANE_OPENCODE=$(wezterm cli split-pane --pane-id "$WEZTERM_PANE" --right --percent 40 -- zsh -ic "opencode")
+    local PANE_OPENCODE=$(wezterm cli split-pane --pane-id "$WEZTERM_PANE" --right --percent 40 -- zsh -ic "headroom wrap opencode")
 
     # ==========================================
     # BLOQUE INFERIOR (Pipes, Aider, Clean, Cava)
