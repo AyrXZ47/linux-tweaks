@@ -344,6 +344,25 @@ uv tool install --python 3.13 "headroom-ai[all]"
 headroom wrap aider --model ollama/qwen3.6:35b
 ```
 
+* Graphify
+```
+# Sistema de Graph-RAG estructural que utiliza Tree-sitter AST a nivel local para mapear de forma exacta el flujo del código
+
+uv tool install graphifyy
+
+cd /ruta/a/tu/proyecto
+
+graphify install
+
+graphify opencode install
+
+graphify aider install
+
+graphify hook install
+
+```
+
+
 ### Headroom Proxy (Servicio en Segundo Plano)
 Para iniciar el proxy de optimización de contexto automáticamente en cualquier máquina:
 
