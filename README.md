@@ -360,6 +360,10 @@ graphify aider install
 
 graphify hook install
 
+# Finalmente para crear el primer plano del codigo hay que lanzar a graphify dentro de opencode en un prompt
+
+/graphify .
+
 ```
 
 
