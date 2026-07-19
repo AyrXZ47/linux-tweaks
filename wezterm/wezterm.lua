@@ -52,7 +52,7 @@ config.colors = {
 	cursor_fg = "#0b0814",
 
 	-- Opcional: Las líneas divisorias entre paneles en un color discreto
-	split = "#1a0b1c",
+	split = "#ff003c",
 }
 
 -- Padding interno (no afecta el borde exterior contra GNOME)
