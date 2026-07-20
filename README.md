@@ -344,35 +344,9 @@ uv tool install --python 3.13 "headroom-ai[all]"
 headroom wrap aider --model ollama/qwen3.6:35b
 ```
 
-* Graphify
-```
-# Sistema de Graph-RAG estructural que utiliza Tree-sitter AST a nivel local para mapear de forma exacta el flujo del código
 
-uv tool install graphifyy
 
-cd /ruta/a/tu/proyecto
-
-graphify install
-
-graphify opencode install
-
-graphify aider install
-
-graphify hook install
-
-# Finalmente para crear el primer plano del codigo hay que lanzar a graphify dentro de opencode en un prompt
-
-/graphify .
-
-```
-
-Si estas en tu laptop, el repo ya existe y solo haces git pull los únicos pasos a seguir para continuar con la integración de estas herramientas es `uv tool install graphifyy` y `graphify hook install` dentro del repo.
-
-No ejecutes graphify opencode install ni graphify aider install: Las configuraciones ya están escritas en los archivos de tu repositorio.
-
-No ejecutes /graphify . para reconstruir todo: El directorio graphify-out/ ya se descargó intacto con tu git pull. Tus agentes podrán hacer consultas semánticas de inmediato sin gastar un solo token extra.
-
-### Headroom Proxy (Servicio en Segundo Plano)
+#### Headroom Proxy (Servicio en Segundo Plano)
 Para iniciar el proxy de optimización de contexto automáticamente en cualquier máquina:
 
 ```bash
@@ -390,6 +364,10 @@ curl -fsSL https://opencode.ai/install | bash
 
 # Ejecutar OpenCode con Ollama
 headroom wrap opencode
+
+# al iniciar en un repo haz un mapa dentro del AGENTS.md:
+
+/init
 ```
 
 ### Gemini CLI
